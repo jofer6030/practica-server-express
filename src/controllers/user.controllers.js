@@ -1,4 +1,5 @@
 import { request, response } from "express";
+
 class UserController {
   constructor() {}
 
@@ -7,6 +8,7 @@ class UserController {
   }
 
   getUser(req, res) {
+    console.log(req.params);
     res.send("getUser");
   }
 }

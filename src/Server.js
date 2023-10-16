@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+import morgan from "morgan";
 
 import RoutesApp from "./routes/index.routes.js";
 
@@ -15,6 +17,8 @@ class Server {
   #middlwares() {
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
+    this.#app.use(cors());
+    this.#app.use(morgan("dev"));
   }
 
   #routes() {
