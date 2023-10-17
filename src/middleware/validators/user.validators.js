@@ -1,4 +1,4 @@
-import { check, body, query, param, validationResult } from "express-validator";
+import { param, validationResult } from "express-validator";
 
 /**
  * const validationErrors = (req, res, next) => {
@@ -11,10 +11,23 @@ export const userParamValidators = [
   param("id")
     .exists()
     .withMessage("El `id` es requerido")
-    .isNumeric()
-    .withMessage("El `id` debe ser un número"),
+    .customSanitizer(toNumber)
+    .isInt()
+    .withMessage("El `id` debe ser un número")
+    .custom(isMajorToZero),
   validationErrors,
 ];
+
+function toNumber(value) {
+  return Number(value);
+}
+
+function isMajorToZero(value) {
+  if (value <= 0) {
+    throw new Error("El `id` debe ser mayor a 0");
+  }
+  return true;
+}
 
 function validationErrors(req, res, next) {
   const errors = validationResult(req);
